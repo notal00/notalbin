@@ -6,49 +6,55 @@
 <title>notalbin</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-  /* ── 基础样式 ── */
-  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+  /* ── 字体 ── */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+  }
 
   :root {
     --font: "PingFang SC", "苹方", "Microsoft YaHei", sans-serif;
-    --bg: #f5f4f7;
-    --surface: #ffffff;
-    --border: rgba(140, 120, 160, 0.13);
-    --border-soft: rgba(140, 120, 160, 0.08);
-    --text: #2d2636;
-    --text-sub: #8a82a0;
-    --text-muted: #b0a8c4;
-    --accent: #7c6fa0;
+    /* light */
+    --bg:           #f5f4f7;
+    --surface:      #ffffff;
+    --border:       rgba(140, 120, 160, 0.13);
+    --border-soft:  rgba(140, 120, 160, 0.08);
+    --text:         #2d2636;
+    --text-sub:     #8a82a0;
+    --text-muted:   #b0a8c4;
+    --accent:       #7c6fa0;
     --accent-hover: #6a5d8e;
-    --accent-dim: rgba(124, 111, 160, 0.10);
-    --accent-glow: rgba(124, 111, 160, 0.18);
-    --divider: rgba(140, 120, 160, 0.20);
-    --input-bg: #faf9fc;
-    --tag-bg: rgba(124, 111, 160, 0.08);
-    --tag-active: rgba(124, 111, 160, 0.16);
-    --shadow: 0 1px 8px rgba(100, 80, 140, 0.06), 0 0 0 1px var(--border);
-    --link-bg: rgba(124, 111, 160, 0.07);
+    --accent-dim:   rgba(124, 111, 160, 0.10);
+    --accent-glow:  rgba(124, 111, 160, 0.18);
+    --divider:      rgba(140, 120, 160, 0.20);
+    --input-bg:     #faf9fc;
+    --tag-bg:       rgba(124, 111, 160, 0.08);
+    --tag-active:   rgba(124, 111, 160, 0.16);
+    --shadow:       0 1px 8px rgba(100, 80, 140, 0.06), 0 0 0 1px var(--border);
+    --link-bg:      rgba(124, 111, 160, 0.07);
   }
 
   @media (prefers-color-scheme: dark) {
     :root {
-      --bg: #1a1820;
-      --surface: #211f28;
-      --border: rgba(160, 140, 200, 0.10);
-      --border-soft: rgba(160, 140, 200, 0.06);
-      --text: #e2ddf0;
-      --text-sub: #8f88a8;
-      --text-muted: #5e5878;
-      --accent: #a08cc8;
+      --bg:           #1a1820;
+      --surface:      #211f28;
+      --border:       rgba(160, 140, 200, 0.10);
+      --border-soft:  rgba(160, 140, 200, 0.06);
+      --text:         #e2ddf0;
+      --text-sub:     #8f88a8;
+      --text-muted:   #5e5878;
+      --accent:       #a08cc8;
       --accent-hover: #b39fd8;
-      --accent-dim: rgba(160, 140, 200, 0.12);
-      --accent-glow: rgba(160, 140, 200, 0.20);
-      --divider: rgba(160, 140, 200, 0.12);
-      --input-bg: #1d1b25;
-      --tag-bg: rgba(160, 140, 200, 0.08);
-      --tag-active: rgba(160, 140, 200, 0.18);
-      --shadow: 0 1px 8px rgba(0, 0, 0, 0.25), 0 0 0 1px var(--border);
-      --link-bg: rgba(160, 140, 200, 0.08);
+      --accent-dim:   rgba(160, 140, 200, 0.12);
+      --accent-glow:  rgba(160, 140, 200, 0.20);
+      --divider:      rgba(160, 140, 200, 0.12);
+      --input-bg:     #1d1b25;
+      --tag-bg:       rgba(160, 140, 200, 0.08);
+      --tag-active:   rgba(160, 140, 200, 0.18);
+      --shadow:       0 1px 8px rgba(0, 0, 0, 0.25), 0 0 0 1px var(--border);
+      --link-bg:      rgba(160, 140, 200, 0.08);
     }
   }
 
@@ -60,40 +66,148 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 48px 16px;
+    padding: 48px 16px 80px;
+    transition: background 0.2s, color 0.2s;
   }
 
-  header { width: 100%; max-width: 640px; margin-bottom: 32px; }
-  .site-title { font-size: 22px; font-weight: 500; color: var(--text); margin-bottom: 12px; }
-  .site-title span { color: var(--accent); }
-  .divider { width: 100%; height: 1px; background: linear-gradient(90deg, var(--divider) 0%, transparent 100%); }
+  header {
+    width: 100%;
+    max-width: 640px;
+    margin-bottom: 32px;
+  }
 
-  #app { width: 100%; max-width: 640px; }
-  .card { background: var(--surface); border: 1px solid var(--border-soft); border-radius: 12px; padding: 24px; box-shadow: var(--shadow); }
+  .site-title {
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    color: var(--text);
+    margin-bottom: 12px;
+  }
+
+  .site-title span { color: var(--accent); }
+
+  .divider {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, var(--divider) 0%, transparent 100%);
+  }
+
+  .card {
+    width: 100%;
+    max-width: 640px;
+    background: var(--surface);
+    border: 1px solid var(--border-soft);
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: var(--shadow);
+  }
 
   textarea {
-    width: 100%; min-height: 240px; font-family: var(--font); font-size: 15px;
-    background: var(--input-bg); border: 1px solid var(--border); border-radius: 8px;
-    padding: 14px 16px; resize: vertical; outline: none; color: var(--text);
+    width: 100%;
+    min-height: 240px;
+    font-family: var(--font);
+    font-size: 15px;
+    line-height: 1.75;
+    color: var(--text);
+    background: var(--input-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 16px;
+    resize: vertical;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    white-space: pre-wrap;
   }
 
-  .options-row { display: flex; align-items: center; gap: 8px; margin-top: 16px; }
-  .tag { 
-    background: var(--tag-bg); border: none; border-radius: 20px; 
-    padding: 4px 12px; cursor: pointer; color: var(--text-sub); 
-  }
-  .tag.active { background: var(--accent-dim); color: var(--accent); font-weight: bold; }
-
-  .submit-row { margin-top: 20px; display: flex; justify-content: flex-end; }
-  .btn-submit { 
-    background: var(--accent); color: white; border: none; 
-    padding: 10px 28px; border-radius: 8px; cursor: pointer; font-weight: 500;
+  textarea:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-glow);
   }
 
-  .result-block { margin-top: 20px; background: var(--link-bg); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; display: none; flex-direction: column; gap: 10px; }
+  .options-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 16px;
+    flex-wrap: wrap;
+  }
+
+  .options-label { font-size: 13px; color: var(--text-sub); }
+
+  .tags { display: flex; gap: 6px; flex-wrap: wrap; }
+
+  .tag {
+    font-family: var(--font);
+    font-size: 13px;
+    color: var(--text-sub);
+    background: var(--tag-bg);
+    border: none;
+    border-radius: 20px;
+    padding: 4px 12px;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+
+  .tag.active {
+    background: var(--accent-dim);
+    color: var(--accent);
+    font-weight: 500;
+  }
+
+  .submit-row {
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .btn-submit {
+    font-family: var(--font);
+    font-size: 14px;
+    font-weight: 500;
+    color: #fff;
+    background: var(--accent);
+    border: none;
+    border-radius: 8px;
+    padding: 10px 28px;
+    cursor: pointer;
+  }
+
+  .result-block {
+    margin-top: 20px;
+    background: var(--link-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 16px;
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+  }
+
   .result-block.visible { display: flex; }
-  .result-link { color: var(--accent); word-break: break-all; }
-  .status-msg { text-align: center; padding: 40px; color: var(--text-sub); }
+
+  .result-link {
+    font-size: 14px;
+    color: var(--accent);
+    word-break: break-all;
+    text-decoration: none;
+  }
+
+  .view-meta {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 20px;
+  }
+
+  .view-content {
+    font-size: 16px;
+    line-height: 1.85;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+
+  .status-msg { text-align: center; padding: 60px 0; color: var(--text-sub); }
+  
+  .error-msg { color: #c97a7a; font-size: 13px; margin-top: 10px; }
 </style>
 </head>
 <body>
@@ -106,107 +220,140 @@
 <div id="app"></div>
 
 <script>
-window.addEventListener('DOMContentLoaded', () => {
-    // 配置信息
-    const SUPABASE_URL = 'https://zkpctzxyqpiiqxvnmauo.supabase.co';
-    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InprcGN0enh5cXBpaXF4dm5tYXVvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUzNDkxNDAsImV4cCI6MjA5MDkyNTE0MH0.Z7WdneCs_vJOblWho1neuMLI86h1FrdNqi6N2-DI4ZQ';
+const SUPABASE_URL = 'https://zkpctzxyqpiiqxvnmauo.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InprcGN0enh5cXBpaXF4dm5tYXVvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUzNDkxNDAsImV4cCI6MjA5MDkyNTE0MH0.Z7WdneCs_vJOblWho1neuMLI86h1FrdNqi6N2-DI4ZQ';
 
-    const { createClient } = supabase;
-    const db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-    const app = document.getElementById('app');
+const { createClient } = supabase;
+const db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const app = document.getElementById('app');
 
-    const EXPIRES = [
-        { label: '1 小时', value: 1 },
-        { label: '3 小时', value: 3 },
-        { label: '1 天',   value: 24 },
-        { label: '1 周',   value: 24 * 7 },
-        { label: '1 个月', value: 24 * 30 }
-    ];
+const EXPIRES = [
+  { label: '1 小时', value: 1,        unit: 'h' },
+  { label: '3 小时', value: 3,        unit: 'h' },
+  { label: '1 天',   value: 24,       unit: 'h' },
+  { label: '1 周',   value: 24 * 7,   unit: 'h' },
+  { label: '1 个月', value: 24 * 30,  unit: 'h' },
+];
 
-    const params = new URLSearchParams(location.search);
-    const viewId = params.get('id');
+function addHours(h) {
+  return new Date(Date.now() + h * 3600 * 1000).toISOString();
+}
 
-    if (viewId) {
-        renderView(viewId);
-    } else {
-        renderCreate();
+function formatDate(iso) {
+  const d = new Date(iso);
+  return d.toLocaleString('zh-CN', {
+    year: 'numeric', month: '2-digit', day: '2-digit',
+    hour: '2-digit', minute: '2-digit'
+  });
+}
+
+const params = new URLSearchParams(location.search);
+const viewId = params.get('id');
+
+if (viewId) {
+  renderView(viewId);
+} else {
+  renderCreate();
+}
+
+function renderCreate() {
+  let selectedIdx = 2; 
+
+  app.innerHTML = `
+    <div class="card">
+      <textarea id="content" placeholder="在这里粘贴内容……"></textarea>
+      <div class="options-row">
+        <span class="options-label">有效期</span>
+        <div class="tags" id="tags"></div>
+      </div>
+      <div class="submit-row">
+        <button class="btn-submit" id="submitBtn">生成链接</button>
+      </div>
+      <div id="errorMsg" class="error-msg"></div>
+      <div class="result-block" id="resultBlock">
+        <div class="result-label">你的链接（有效期内可访问）</div>
+        <a class="result-link" id="resultLink" href="#" target="_blank"></a>
+        <div class="result-actions">
+          <button class="btn-copy" id="copyBtn" style="cursor:pointer; padding:5px 10px; background:var(--accent-dim); border:none; border-radius:4px; color:var(--accent);">复制链接</button>
+          <button class="btn-new" id="newBtn" style="cursor:pointer; padding:5px 10px; background:transparent; border:1px solid var(--border); border-radius:4px; margin-left:10px;">再粘一条</button>
+        </div>
+      </div>
+    </div>
+  `;
+
+  const tagsEl = document.getElementById('tags');
+  EXPIRES.forEach((e, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'tag' + (i === selectedIdx ? ' active' : '');
+    btn.textContent = e.label;
+    btn.onclick = () => {
+      selectedIdx = i;
+      tagsEl.querySelectorAll('.tag').forEach((t, j) => t.classList.toggle('active', j === i));
+    };
+    tagsEl.appendChild(btn);
+  });
+
+  document.getElementById('submitBtn').onclick = async () => {
+    const content = document.getElementById('content').value.trim();
+    const errEl = document.getElementById('errorMsg');
+    if (!content) {
+      errEl.textContent = '内容不能为空。';
+      return;
     }
 
-    async function renderView(id) {
-        app.innerHTML = `<div class="status-msg">加载中...</div>`;
-        const { data, error } = await db.from('pastes').select('*').eq('id', id).maybeSingle();
+    const btn = document.getElementById('submitBtn');
+    btn.disabled = true;
+    btn.textContent = '提交中…';
 
-        if (error || !data) {
-            app.innerHTML = `<div class="status-msg">内容不存在或已过期。<br><br><a href="${location.pathname}" style="color:var(--accent)">返回首页</a></div>`;
-            return;
-        }
+    const expires_at = addHours(EXPIRES[selectedIdx].value);
+    const { data, error } = await db.from('pastes').insert({ content, expires_at }).select('id').single();
 
-        app.innerHTML = `
-            <div class="card">
-                <div style="font-size:12px; color:var(--text-muted); margin-bottom:15px;">
-                    有效至: ${new Date(data.expires_at).toLocaleString()}
-                </div>
-                <div style="white-space:pre-wrap; word-break:break-all; line-height:1.6;">${data.content}</div>
-            </div>
-        `;
+    btn.disabled = false;
+    btn.textContent = '生成链接';
+
+    if (error) {
+      errEl.textContent = '提交失败：' + error.message;
+      return;
     }
 
-    function renderCreate() {
-        let selectedIdx = 2;
-        app.innerHTML = `
-            <div class="card">
-                <textarea id="content" placeholder="在这里粘贴内容..."></textarea>
-                <div class="options-row">
-                    <span style="font-size:13px; color:var(--text-sub)">有效期</span>
-                    <div id="tags" style="display:flex; gap:6px;"></div>
-                </div>
-                <div class="submit-row">
-                    <button class="btn-submit" id="submitBtn">生成链接</button>
-                </div>
-                <div id="resultBlock" class="result-block">
-                    <div style="font-size:12px; color:var(--text-muted)">粘贴板链接：</div>
-                    <a id="resultLink" class="result-link" target="_blank"></a>
-                </div>
-            </div>
-        `;
+    const link = `${location.origin}${location.pathname}?id=${data.id}`;
+    const linkEl = document.getElementById('resultLink');
+    linkEl.href = link;
+    linkEl.textContent = link;
+    document.getElementById('resultBlock').classList.add('visible');
+  };
 
-        const tagsEl = document.getElementById('tags');
-        EXPIRES.forEach((e, i) => {
-            const btn = document.createElement('button');
-            btn.className = 'tag' + (i === selectedIdx ? ' active' : '');
-            btn.textContent = e.label;
-            btn.onclick = () => {
-                selectedIdx = i;
-                Array.from(tagsEl.children).forEach((t, j) => t.classList.toggle('active', j === i));
-            };
-            tagsEl.appendChild(btn);
-        });
+  document.getElementById('copyBtn').onclick = () => {
+    const link = document.getElementById('resultLink').textContent;
+    navigator.clipboard.writeText(link).then(() => {
+      const btn = document.getElementById('copyBtn');
+      btn.textContent = '已复制 ✓';
+      setTimeout(() => btn.textContent = '复制链接', 2000);
+    });
+  };
 
-        document.getElementById('submitBtn').onclick = async () => {
-            const content = document.getElementById('content').value.trim();
-            if (!content) return alert('请输入内容');
+  document.getElementById('newBtn').onclick = () => {
+    location.href = location.pathname;
+  };
+}
 
-            const btn = document.getElementById('submitBtn');
-            btn.disabled = true;
-            btn.textContent = '处理中...';
+async function renderView(id) {
+  app.innerHTML = `<div class="status-msg">加载中…</div>`;
+  const { data, error } = await db.from('pastes').select('content, created_at, expires_at').eq('id', id).maybeSingle();
 
-            const expires_at = new Date(Date.now() + EXPIRES[selectedIdx].value * 3600 * 1000).toISOString();
-            
-            const { data, error } = await db.from('pastes').insert({ content, expires_at }).select('id').single();
+  if (error || !data) {
+    app.innerHTML = `<div class="status-msg">内容不存在或已过期。<br><a href="${location.pathname}" style="color:var(--accent);">返回首页</a></div>`;
+    return;
+  }
 
-            btn.disabled = false;
-            btn.textContent = '生成链接';
-
-            if (error) return alert('失败: ' + error.message);
-
-            const link = window.location.origin + window.location.pathname + '?id=' + data.id;
-            const linkEl = document.getElementById('resultLink');
-            linkEl.href = link;
-            linkEl.textContent = link;
-            document.getElementById('resultBlock').style.display = 'flex';
-        };
-    }
-});
+  app.innerHTML = `
+    <div class="card">
+      <div class="view-meta">创建于 ${formatDate(data.created_at)} · 有效至 ${formatDate(data.expires_at)}</div>
+      <div class="view-content" id="viewContent"></div>
+    </div>
+  `;
+  document.getElementById('viewContent').textContent = data.content;
+}
 </script>
 </body>
 </html>
