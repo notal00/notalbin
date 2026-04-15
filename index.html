@@ -21,9 +21,9 @@
     --surface:      #ffffff;
     --border:       rgba(140, 120, 160, 0.13);
     --border-soft:  rgba(140, 120, 160, 0.08);
-    --text:         #303636;
+    --text:         #4a4758;
     --text-sub:     #8a82a0;
-    --text-muted:   #b0a8c4;
+    --text-muted:   #4a4758;
     --accent:       #7c6fa0;
     --accent-hover: #6a5d8e;
     --accent-dim:   rgba(124, 111, 160, 0.10);
@@ -42,9 +42,9 @@
       --surface:      #211f28;
       --border:       rgba(160, 140, 200, 0.10);
       --border-soft:  rgba(160, 140, 200, 0.06);
-      --text:         #e2ddf0;
+      --text:         #d4cfe6;
       --text-sub:     #8f88a8;
-      --text-muted:   #5e5878;
+      --text-muted:   #d4cfe6;
       --accent:       #a08cc8;
       --accent-hover: #b39fd8;
       --accent-dim:   rgba(160, 140, 200, 0.12);
@@ -186,13 +186,6 @@
   }
 
   .result-block.visible { display: flex; }
-
-   .result-label {
-    font-size: 14px;
-    color: var(--text);
-    word-break: break-all;
-    text-decoration: none;
-  }
   
   .result-link {
     font-size: 14px;
@@ -232,7 +225,8 @@
 <script>
 const SUPABASE_URL = 'https://zkpctzxyqpiiqxvnmauo.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InprcGN0enh5cXBpaXF4dm5tYXVvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUzNDkxNDAsImV4cCI6MjA5MDkyNTE0MH0.Z7WdneCs_vJOblWho1neuMLI86h1FrdNqi6N2-DI4ZQ';
-
+const WRITE_KEY = '930821';
+  
 const { createClient } = supabase;
 const db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 const app = document.getElementById('app');
@@ -259,11 +253,14 @@ function formatDate(iso) {
 
 const params = new URLSearchParams(location.search);
 const viewId = params.get('id');
+const writeKey = params.get('key');
 
 if (viewId) {
   renderView(viewId);
-} else {
+} else if (writeKey === WRITE_KEY) {
   renderCreate();
+} else {
+  app.innerHTML = `<div class="status-msg">页面不存在。</div>`;
 }
 
 function renderCreate() {
